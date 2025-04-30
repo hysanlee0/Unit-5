@@ -1,5 +1,8 @@
 color white = #ffffff;
 color black = #000000;
+float ballx, bally, balld;
+float vx, vy;
+float ax, ay;
 
 //player variables
 float x, y, d;
@@ -16,6 +19,15 @@ void setup() {
   d = 100;
   arrowX = width/2;
   arrowY = height/2;
+  ballx = width/2;
+  bally = height/2;
+  balld = 50;
+  
+  vx = 1;
+  vy = 1;
+  
+  ax = 0;
+  ay = 1;
 }
 
 void draw() {
@@ -26,17 +38,50 @@ void draw() {
   circle(arrowX, arrowY, d);
   fill(white);
   circle(x, y, d);
+  stroke(0);
+  fill(254, 255, 26);
+  circle(ballx, bally, balld);
  
   
   //movement code
-  if (wKey) y = y - 5;
-  if (sKey) y = y + 5;
-  if (aKey) x = x - 5;
-  if (dKey) x = x + 5;
-  if (upKey) arrowY = arrowY - 5;
-  if (downKey) arrowY = arrowY + 5;
-  if (leftKey) arrowX = arrowX - 5;
-  if (rightKey) arrowX = arrowX + 5;
+  if (wKey) y = y - 15;
+  if (sKey) y = y + 15;
+  if (aKey) x = x - 15;
+  if (dKey) x = x + 15;
+  if (upKey) arrowY = arrowY - 15;
+  if (downKey) arrowY = arrowY + 15;
+  if (leftKey) arrowX = arrowX - 15;
+  if (rightKey) arrowX = arrowX + 15;
+  
+  //movement
+   ballx = ballx + vx;
+   bally = bally + vy;
+   
+  //acceleration
+   vx = vx + ax;
+   vy = vy + ay;
+   
+   //bounce
+  if (bally <=0 ) {
+   vy = vy * -0.95;
+   bally = 0;
+  }
+  if (bally >= height) {
+   vy = vy * -0.95;
+   bally = height;
+  }
+  if (ballx <= 0) {
+   vx = vx * -0.95;
+   ballx = 0;
+  }
+  if (ballx >= width) {
+   vx = vx * -0.95;
+   ballx = width;
+  }
+  if(dist(x, y, ballx, bally) <= d/2 + balld/2) {
+  vx = 0;
+  vy = 0;
+ }
 }
 
 void keyPressed() {
