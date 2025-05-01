@@ -32,13 +32,16 @@ void setup() {
 
 void draw() {
   background(white);
+  //black player
   strokeWeight(5);
   stroke(black);
   fill(black);
   circle(arrowX, arrowY, d);
+  //white player
   fill(white);
   circle(x, y, d);
   stroke(0);
+  //ball
   fill(254, 255, 26);
   circle(ballx, bally, balld);
  
@@ -61,6 +64,31 @@ void draw() {
    vx = vx + ax;
    vy = vy + ay;
    
+   //controller stop
+  if(x <= 0) {
+     x = 0;
+   }
+  if (x >= width) {
+     x = width;
+   }
+  if (y >= height) {
+     y = height;
+   }
+  if (y <= 0) {
+     y = 0;
+   }
+   if(arrowX <= 0) {
+     arrowX = 0;
+   }
+  if (arrowX >= width) {
+     arrowX = width;
+   }
+  if (arrowY >= height) {
+     arrowY = height;
+   }
+  if (arrowY <= 0) {
+     arrowY = 0;
+   }
    //bounce
   if (bally <=0 ) {
    vy = vy * -0.95;
@@ -78,10 +106,15 @@ void draw() {
    vx = vx * -0.95;
    ballx = width;
   }
+  //ball stop
   if(dist(x, y, ballx, bally) <= d/2 + balld/2) {
-  vx = 0;
-  vy = 0;
+  vx = (ballx - x)/5;
+  vy = (bally - y)/5;
  }
+  if (dist(arrowX, arrowY, ballx, bally)<= d/2 + balld/2) {
+  vx = (ballx - arrowX)/5;
+  vy = (bally - arrowY)/5;
+  }
 }
 
 void keyPressed() {
