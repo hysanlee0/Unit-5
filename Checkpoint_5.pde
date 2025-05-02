@@ -1,8 +1,12 @@
+import processing.sound.*;
+  SoundFile fail, success, music;
+
 color white = #ffffff;
 color black = #000000;
 float ballx, bally, balld;
 float vx, vy;
 float ax, ay;
+int goalX, goalY;
 
 //player variables
 float x, y, d;
@@ -11,23 +15,36 @@ float arrowX, arrowY;
 //key variables
 boolean wKey, sKey, aKey, dKey;
 boolean upKey, downKey, leftKey, rightKey;
+boolean goalUp;
 
 void setup() {
   size(600, 600, P2D);
-  x = width/2;
-  y = height/2;
+  x = 200;
+  y = 500;
   d = 100;
-  arrowX = width/2;
-  arrowY = height/2;
+  arrowX = 400;
+  arrowY = 500;
   ballx = width/2;
   bally = height/2;
   balld = 50;
   
-  vx = 1;
-  vy = 1;
+  vx = 5;
+  vy = 5;
   
   ax = 0;
   ay = 1;
+  
+  goalX = 0;
+  goalY = height;
+  
+  //load assets
+  fail = new SoundFile(this, "FAILURE.wav");
+  music = new SoundFile(this, "MUSIC.mp3");
+  success = new SoundFile(this, "SUCCESS.wav");
+  
+
+  music.loop();
+  
 }
 
 void draw() {
@@ -44,6 +61,10 @@ void draw() {
   //ball
   fill(254, 255, 26);
   circle(ballx, bally, balld);
+  //hoops
+  fill(177);
+  circle(goalX, goalY, 50);
+  circle(goalX + width, goalY, 50);
  
   
   //movement code
@@ -106,7 +127,7 @@ void draw() {
    vx = vx * -0.95;
    ballx = width;
   }
-  //ball stop
+  //ball bounce
   if(dist(x, y, ballx, bally) <= d/2 + balld/2) {
   vx = (ballx - x)/5;
   vy = (bally - y)/5;
@@ -115,7 +136,45 @@ void draw() {
   vx = (ballx - arrowX)/5;
   vy = (bally - arrowY)/5;
   }
+   
+   //moving goal:
+   if (goalUp == true) {
+    goalY = goalY - 1; 
+   } 
+   if (goalUp == false) {
+    goalY = goalY + 1; 
+   }
+   if (goalY > height) {
+    goalUp = true;
+   }
+   if (goalY < 0) {
+    goalUp = false;
+   }
+   //if goal
+   if(dist(ballx, bally, goalX, goalY) <=50) {
+   success.stop();
+   success.play();
+   ballx = 300;
+   bally = 300;
+   x = 200;
+   y = 500;
+   arrowX = 400;
+   arrowY = 500;
+   goalY = height;
+   }
+   if(dist(ballx, bally, (goalX + width), goalY) <=50) {
+   success.stop();
+   success.play();
+   ballx = 300;
+   bally = 300;
+   x = 200;
+   y = 500;
+   arrowX = 400;
+   arrowY = 500;
+   goalY = height;
+   }
 }
+
 
 void keyPressed() {
   if (key == 'w') wKey = true;
