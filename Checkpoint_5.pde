@@ -9,8 +9,8 @@ float ax, ay;
 int goalX, goalY;
 
 //player variables
-float x, y, d;
-float arrowX, arrowY;
+float whiteX, whiteY, d;
+float blackX, blackY;
 
 //key variables
 boolean wKey, sKey, aKey, dKey;
@@ -19,11 +19,11 @@ boolean goalUp;
 
 void setup() {
   size(600, 600, P2D);
-  x = 200;
-  y = 500;
+  whiteX = 200;
+  whiteY = 500;
   d = 100;
-  arrowX = 400;
-  arrowY = 500;
+  blackX = 400;
+  blackY = 500;
   ballx = width/2;
   bally = height/2;
   balld = 50;
@@ -53,29 +53,30 @@ void draw() {
   strokeWeight(5);
   stroke(black);
   fill(black);
-  circle(arrowX, arrowY, d);
+  circle(blackX, blackY, d);
   //white player
   fill(white);
-  circle(x, y, d);
+  circle(whiteX, whiteY, d);
   stroke(0);
   //ball
   fill(254, 255, 26);
   circle(ballx, bally, balld);
   //hoops
-  fill(177);
+  fill(white);
   circle(goalX, goalY, 50);
+  fill(black);
   circle(goalX + width, goalY, 50);
  
   
   //movement code
-  if (wKey) y = y - 15;
-  if (sKey) y = y + 15;
-  if (aKey) x = x - 15;
-  if (dKey) x = x + 15;
-  if (upKey) arrowY = arrowY - 15;
-  if (downKey) arrowY = arrowY + 15;
-  if (leftKey) arrowX = arrowX - 15;
-  if (rightKey) arrowX = arrowX + 15;
+  if (wKey) whiteY = whiteY - 15;
+  if (sKey) whiteY = whiteY + 15;
+  if (aKey) whiteX = whiteX - 15;
+  if (dKey) whiteX = whiteX + 15;
+  if (upKey) blackY = blackY - 15;
+  if (downKey) blackY = blackY + 15;
+  if (leftKey) blackX = blackX - 15;
+  if (rightKey) blackX = blackX + 15;
   
   //movement
    ballx = ballx + vx;
@@ -86,30 +87,45 @@ void draw() {
    vy = vy + ay;
    
    //controller stop
-  if(x <= 0) {
-     x = 0;
+  if(whiteX <= 0) {
+     whiteX = 0;
    }
-  if (x >= width) {
-     x = width;
+  if (whiteX >= width) {
+     whiteX = width;
    }
-  if (y >= height) {
-     y = height;
+  if (whiteY >= height) {
+     whiteY = height;
    }
-  if (y <= 0) {
-     y = 0;
+  if (whiteY <= 0) {
+     whiteY = 0;
    }
-   if(arrowX <= 0) {
-     arrowX = 0;
+   if(blackX <= 0) {
+     blackX = 0;
    }
-  if (arrowX >= width) {
-     arrowX = width;
+  if (blackX >= width) {
+     blackX = width;
    }
-  if (arrowY >= height) {
-     arrowY = height;
+  if (blackY >= height) {
+     blackY = height;
    }
-  if (arrowY <= 0) {
-     arrowY = 0;
+  if (blackY <= 0) {
+     blackY = 0;
    }
+   
+   //if controller touch goal===========================================================FIGURE OUT FIRST
+  //if (dist(whiteX, whiteY, goalX, goalY) <= 75) {
+  //   wKey = false;
+  //   aKey = false;
+  //   dKey = false;
+  //   sKey = false;
+  //   whiteX = (whiteX - goalX)/whiteX;
+  //   whiteY = (whiteY - goalY)/whiteY;
+  // } 
+  //if (dist(blackX, blackY, (goalX + width), goalY) <= 75) {
+  //   blackX = blackX + 25;
+  //   blackY = blackY + 25;
+  // }
+   
    //bounce
   if (bally <=0 ) {
    vy = vy * -0.95;
@@ -128,21 +144,21 @@ void draw() {
    ballx = width;
   }
   //ball bounce
-  if(dist(x, y, ballx, bally) <= d/2 + balld/2) {
-  vx = (ballx - x)/5;
-  vy = (bally - y)/5;
+  if(dist(whiteX, whiteY, ballx, bally) <= d/2 + balld/2) {
+  vx = (ballx - whiteX)/5;
+  vy = (bally - whiteY)/5;
  }
-  if (dist(arrowX, arrowY, ballx, bally)<= d/2 + balld/2) {
-  vx = (ballx - arrowX)/5;
-  vy = (bally - arrowY)/5;
+  if (dist(blackX, blackY, ballx, bally)<= d/2 + balld/2) {
+  vx = (ballx - blackX)/5;
+  vy = (bally - blackY)/5;
   }
    
    //moving goal:
    if (goalUp == true) {
-    goalY = goalY - 1; 
+    goalY = goalY - 5; 
    } 
    if (goalUp == false) {
-    goalY = goalY + 1; 
+    goalY = goalY + 5; 
    }
    if (goalY > height) {
     goalUp = true;
@@ -150,16 +166,16 @@ void draw() {
    if (goalY < 0) {
     goalUp = false;
    }
-   //if goal
+   //if there's a goal
    if(dist(ballx, bally, goalX, goalY) <=50) {
    success.stop();
    success.play();
    ballx = 300;
    bally = 300;
-   x = 200;
-   y = 500;
-   arrowX = 400;
-   arrowY = 500;
+   whiteX = 200;
+   whiteY = 500;
+   blackX = 400;
+   blackY = 500;
    goalY = height;
    }
    if(dist(ballx, bally, (goalX + width), goalY) <=50) {
@@ -167,14 +183,15 @@ void draw() {
    success.play();
    ballx = 300;
    bally = 300;
-   x = 200;
-   y = 500;
-   arrowX = 400;
-   arrowY = 500;
+   whiteX = 200;
+   whiteY = 500;
+   blackX = 400;
+   blackY = 500;
    goalY = height;
    }
+   //goal cannot touch players
+   
 }
-
 
 void keyPressed() {
   if (key == 'w') wKey = true;
