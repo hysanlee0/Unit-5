@@ -1,8 +1,18 @@
 import processing.sound.*;
   SoundFile fail, success, music;
 
+//colours
 color white = #ffffff;
 color black = #000000;
+  
+//mode variables
+int mode;  
+  
+final int INTRO = 0;
+final int GAME = 1;
+final int PAUSE = 2;
+final int GAMEOVER = 3;
+
 float ballx, bally, balld;
 float vx, vy;
 float ax, ay;
@@ -45,172 +55,19 @@ void setup() {
 
   music.loop();
   
+  mode = 1;
 }
 
 void draw() {
-  background(white);
-  //black player
-  strokeWeight(5);
-  stroke(black);
-  fill(black);
-  circle(blackX, blackY, d);
-  //white player
-  fill(white);
-  circle(whiteX, whiteY, d);
-  stroke(0);
-  //ball
-  fill(254, 255, 26);
-  circle(ballx, bally, balld);
-  //hoops
-  fill(white);
-  circle(goalX, goalY, 50);
-  fill(black);
-  circle(goalX + width, goalY, 50);
- 
-  
-  //movement code
-  if (wKey) whiteY = whiteY - 15;
-  if (sKey) whiteY = whiteY + 15;
-  if (aKey) whiteX = whiteX - 15;
-  if (dKey) whiteX = whiteX + 15;
-  if (upKey) blackY = blackY - 15;
-  if (downKey) blackY = blackY + 15;
-  if (leftKey) blackX = blackX - 15;
-  if (rightKey) blackX = blackX + 15;
-  
-  //movement
-   ballx = ballx + vx;
-   bally = bally + vy;
-   
-  //acceleration
-   vx = vx + ax;
-   vy = vy + ay;
-   
-   //controller stop
-  if(whiteX <= 0) {
-     whiteX = 0;
-   }
-  if (whiteX >= width) {
-     whiteX = width;
-   }
-  if (whiteY >= height) {
-     whiteY = height;
-   }
-  if (whiteY <= 0) {
-     whiteY = 0;
-   }
-   if(blackX <= 0) {
-     blackX = 0;
-   }
-  if (blackX >= width) {
-     blackX = width;
-   }
-  if (blackY >= height) {
-     blackY = height;
-   }
-  if (blackY <= 0) {
-     blackY = 0;
-   }
-   
-   //if controller touch goal===========================================================FIGURE OUT FIRST
-  //if (dist(whiteX, whiteY, goalX, goalY) <= 75) {
-  //   wKey = false;
-  //   aKey = false;
-  //   dKey = false;
-  //   sKey = false;
-  //   whiteX = (whiteX - goalX)/whiteX;
-  //   whiteY = (whiteY - goalY)/whiteY;
-  // } 
-  //if (dist(blackX, blackY, (goalX + width), goalY) <= 75) {
-  //   blackX = blackX + 25;
-  //   blackY = blackY + 25;
-  // }
-   
-   //bounce
-  if (bally <=0 ) {
-   vy = vy * -0.95;
-   bally = 0;
-  }
-  if (bally >= height) {
-   vy = vy * -0.95;
-   bally = height;
-  }
-  if (ballx <= 0) {
-   vx = vx * -0.95;
-   ballx = 0;
-  }
-  if (ballx >= width) {
-   vx = vx * -0.95;
-   ballx = width;
-  }
-  //ball bounce
-  if(dist(whiteX, whiteY, ballx, bally) <= d/2 + balld/2) {
-  vx = (ballx - whiteX)/5;
-  vy = (bally - whiteY)/5;
- }
-  if (dist(blackX, blackY, ballx, bally)<= d/2 + balld/2) {
-  vx = (ballx - blackX)/5;
-  vy = (bally - blackY)/5;
-  }
-   
-   //moving goal:
-   if (goalUp == true) {
-    goalY = goalY - 5; 
-   } 
-   if (goalUp == false) {
-    goalY = goalY + 5; 
-   }
-   if (goalY > height) {
-    goalUp = true;
-   }
-   if (goalY < 0) {
-    goalUp = false;
-   }
-   //if there's a goal
-   if(dist(ballx, bally, goalX, goalY) <=50) {
-   success.stop();
-   success.play();
-   ballx = 300;
-   bally = 300;
-   whiteX = 200;
-   whiteY = 500;
-   blackX = 400;
-   blackY = 500;
-   goalY = height;
-   }
-   if(dist(ballx, bally, (goalX + width), goalY) <=50) {
-   success.stop();
-   success.play();
-   ballx = 300;
-   bally = 300;
-   whiteX = 200;
-   whiteY = 500;
-   blackX = 400;
-   blackY = 500;
-   goalY = height;
-   }
-   //goal cannot touch players
-   
+  if(mode == INTRO) {
+    intro();
+  } else if (mode == GAME) {
+    game();
+  } else if (mode == PAUSE) {
+    pause();
+  } else if (mode == GAMEOVER) {
+    gameOver();
+  } else {
+    println("Error, mode is " + mode);
 }
-
-void keyPressed() {
-  if (key == 'w') wKey = true;
-  if (key == 's') sKey = true;
-  if (key == 'a') aKey = true;
-  if (key == 'd') dKey = true;
-  if (keyCode == UP) upKey = true;
-  if (keyCode == DOWN) downKey = true;
-  if (keyCode == RIGHT) rightKey = true;
-  if (keyCode == LEFT) leftKey = true;
-}
-
-void keyReleased() {
-  if (key == 'w') wKey = false;
-  if (key == 's') sKey = false;
-  if (key == 'a') aKey = false;
-  if (key == 'd') dKey = false;
-  if (keyCode == UP) upKey = false;
-  if (keyCode == DOWN) downKey = false;
-  if (keyCode == RIGHT) rightKey = false;
-  if (keyCode == LEFT) leftKey = false;
 }
