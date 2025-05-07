@@ -4,6 +4,7 @@ import processing.sound.*;
 //colours
 color white = #ffffff;
 color black = #000000;
+color red = #FF0303;
   
 //mode variables
 int mode;  
@@ -55,7 +56,7 @@ void setup() {
 
   music.loop();
   
-  mode = 1;
+  mode = 1; //----------------------------------------------------------------------------------------------------------------------
 }
 
 void draw() {
