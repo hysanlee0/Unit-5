@@ -47,6 +47,7 @@ void setup() {
   
   goalX = 0;
   goalY = height;
+
   
   //load assets
   fail = new SoundFile(this, "FAILURE.wav");
