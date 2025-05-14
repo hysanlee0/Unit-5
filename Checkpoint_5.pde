@@ -1,3 +1,5 @@
+PFont titleFont;
+
 import processing.sound.*;
   SoundFile fail, success, music;
 
@@ -9,6 +11,9 @@ color darkGrey = #A0A0A0;
   
 //mode variables
 int mode;  
+
+//asset variable
+int fontSize;
   
 final int INTRO = 0;
 final int GAME = 1;
@@ -51,6 +56,9 @@ void setup() {
 
   
   //load assets
+  titleFont = createFont("titleFont.ttf", 228);
+  
+  //music
   fail = new SoundFile(this, "FAILURE.wav");
   music = new SoundFile(this, "MUSIC.mp3");
   success = new SoundFile(this, "SUCCESS.wav");
