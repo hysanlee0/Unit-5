@@ -1,4 +1,5 @@
 PFont titleFont;
+PFont defaultFont;
 
 import processing.sound.*;
   SoundFile fail, success, music;
@@ -7,6 +8,7 @@ import processing.sound.*;
 color white = #ffffff;
 color black = #000000;
 color red = #FF0303;
+color blue = #006CFF;
 color darkGrey = #A0A0A0;
   
 //mode variables
@@ -26,8 +28,10 @@ float ax, ay;
 int goalX, goalY;
 
 //player variables
-float whiteX, whiteY, d;
-float blackX, blackY;
+float redX, redY, d;
+float blueX, blueY;
+int rp = 0;
+int bp = 0;
 
 //key variables
 boolean wKey, sKey, aKey, dKey;
@@ -36,11 +40,11 @@ boolean goalUp;
 
 void setup() {
   size(600, 600, P2D);
-  whiteX = 200;
-  whiteY = 500;
+  redX = 200;
+  redY = 500;
   d = 100;
-  blackX = 400;
-  blackY = 500;
+  blueX = 400;
+  blueY = 500;
   ballx = width/2;
   bally = height/2;
   balld = 50;
@@ -57,6 +61,7 @@ void setup() {
   
   //load assets
   titleFont = createFont("titleFont.ttf", 228);
+  defaultFont = createFont("Arial", 12);
   
   //music
   fail = new SoundFile(this, "FAILURE.wav");
