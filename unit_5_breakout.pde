@@ -18,23 +18,40 @@ float ballX, ballY, ballD;
 //brick arrays
 int[] blockX;
 int[] blockY;
-int blockD;
+int blockD = 50;
+int n = 28;
+int i = 0;
 int c;
-int tempX, tempY;
+int tempX = 50;
+int tempY = 50;
 float vx, vy;
 
 //modes
 int mode;
-int intro = 0;
-int game = 1;
-int pause = 2;
-int gameover = 3;
+final int intro = 0;
+final int game = 1;
+final int pause = 2;
+final int gameover = 3;
 
 void setup() {
   size(600, 600, P2D);
   ballX = width/2;
   ballY = 535;
   ballD = 30;
+  
+  blockX = new int[n];
+  blockY = new int[n];
+  int i= 0;
+  while (i < n) { //==============================================
+   blockX[i] = tempX;
+   blockY[i] = tempY;
+   tempX += 100;
+   if (tempX == width) {
+    tempX = 100;
+    tempY += 100;
+   }
+   i += 1;
+  } 
   
   vx = 10;
   vy = 10;
