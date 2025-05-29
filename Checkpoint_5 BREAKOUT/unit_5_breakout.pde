@@ -5,9 +5,18 @@
 //colors
 color white = #FFFFFF;
 color black = #000000;
+color lightYellow = #FBF8CC;
+color lightOrange = #FDE4CF;
+color lightRed = #FFCFD2;
+color lightPurple = #CFBAF0;
+color lightBlue = #A3C4F3;
+color lightAqua = #98F5E1;
+color lightGreen = #B9FBC0;
 
 //player variables
-float playerX = 240;
+float playerX = 1000/2;
+float playerY = 1000;
+float playerD = 100;
 boolean right, left;
 
 //ball variables
@@ -16,26 +25,43 @@ float ballX, ballY, ballD;
 //brick arrays
 int[] blockX;
 int[] blockY;
-int blockD;
-int c;
-int tempX, tempY;
-int vx, vy;
+int blockD = 50;
+int n = 70; //number of blocks
+int i = 0;
+
+int tempX = 50;
+int tempY = 50;
+float vx, vy;
 
 //modes
 int mode;
-int intro = 0;
-int game = 1;
-int pause = 2;
-int gameover = 3;
+final int intro = 0;
+final int game = 1;
+final int pause = 2;
+final int gameover = 3;
 
 void setup() {
-  size(600, 600);
+  size(1000, 1000, P2D);
   ballX = width/2;
   ballY = 535;
   ballD = 30;
   
-  vx = 5;
-  vy = 5;
+  blockX = new int[n];
+  blockY = new int[n];
+  int i= 0;
+  while (i < n) { //==============================================
+   blockX[i] = tempX;
+   blockY[i] = tempY;
+   tempX += 100;
+   if (tempX > width) {
+    tempX = 50;
+    tempY += 75;
+   }
+   i += 1;
+  } 
+  
+  vx = 10;
+  vy = 10;
   
   mode = game;
 }
@@ -45,5 +71,4 @@ void draw() {
  if (mode==game) game();
  if (mode==pause) pause();
  if (mode==gameover) gameover();
- 
 }
