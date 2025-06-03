@@ -3,6 +3,7 @@
 //2-3
 
 PImage[] gif;
+int frame;
 int gifFrames;
 
 //colors
@@ -50,8 +51,14 @@ final int gameover = 3;
 
 void setup() {
   size(1000, 1000, P2D);
-  gifFrames = 45
+  gifFrames = 45;
   gif = new PImage[gifFrames];
+  
+  int gifFrame = 0;
+  while(gifFrame < gifFrames) {
+   gif[gifFrame] = loadImage("frame_"+gifFrame+"_delay-0.1s.gif");
+   gifFrame++;
+  }
   
   ballX = width/2;
   ballY = 535;
@@ -76,7 +83,7 @@ void setup() {
   vx = 10;
   vy = 10;
   
-  mode = game;
+  mode = intro;
 }
 
 void draw() {
