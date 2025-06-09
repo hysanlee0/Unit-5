@@ -1,14 +1,19 @@
+import processing.javafx.*;
+
 //Hysan Lee
 //May 21, 2025
 //2-3
 
 PImage[] gif;
+PImage face;
 int frame;
 int gifFrames;
 
 //colors
+color red = #FF0000;
 color white = #FFFFFF;
 color black = #000000;
+color grey = #A0A0A0;
 color lightYellow = #FBF8CC;
 color lightOrange = #FDE4CF;
 color lightRed = #FFCFD2;
@@ -41,16 +46,19 @@ float vx, vy;
 //mechanics
 int score = 0;
 int lives = 3;
+int timer = 60;
 
 //modes
 int mode;
 final int intro = 0;
 final int game = 1;
 final int pause = 2;
-final int gameover = 3;
+final int lose = 3;
+final int win = 4;
 
 void setup() {
-  size(1000, 1000, P2D);
+  size(1000, 1000, FX2D);
+  face = loadImage("face.png");
   gifFrames = 45;
   gif = new PImage[gifFrames];
   
@@ -61,7 +69,7 @@ void setup() {
   }
   
   ballX = width/2;
-  ballY = 535;
+  ballY = 600;
   ballD = 30;
   
   blockX = new int[n];
@@ -90,5 +98,6 @@ void draw() {
  if (mode==intro) intro();
  if (mode==game) game();
  if (mode==pause) pause();
- if (mode==gameover) gameover();
+ if (mode==lose) lose();
+ if (mode==win) win();
 }
