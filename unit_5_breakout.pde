@@ -1,11 +1,13 @@
+import processing.sound.*;
+    SoundFile oof, boom;
 import processing.javafx.*;
 
 //Hysan Lee
 //May 21, 2025
 //2-3
-
 PImage[] gif;
 PImage face;
+PImage cup;
 int frame;
 int gifFrames;
 
@@ -59,6 +61,7 @@ final int win = 4;
 void setup() {
   size(1000, 1000, FX2D);
   face = loadImage("face.png");
+  cup = loadImage("WIN.png");
   gifFrames = 45;
   gif = new PImage[gifFrames];
   
@@ -90,6 +93,10 @@ void setup() {
   
   vx = 10;
   vy = 10;
+  
+  //music
+  oof = new SoundFile(this, "oof.mp3");
+  boom = new SoundFile(this, "boom.mp3");
   
   mode = intro;
 }
